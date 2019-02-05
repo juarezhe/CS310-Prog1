@@ -105,9 +105,14 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 		return null;
 	}
 
+	/*
+	 * Returns the last element in the list, null if the list is empty. The list is
+	 * not modified.
+	 */
 	@Override
 	public T peekLast() {
-		// TODO Auto-generated method stub
+		if (!this.isEmpty())
+			return this.listArray[this.tailIdx];
 		return null;
 	}
 
