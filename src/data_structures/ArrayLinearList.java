@@ -3,20 +3,23 @@ package data_structures;
 import java.util.Iterator;
 
 public class ArrayLinearList<T> implements LinearListADT<T> {
-	
+
+	private T listArray[];
 	private int objectCount, headIdx, tailIdx;
-	
+
+	@SuppressWarnings("unchecked")
 	public ArrayLinearList() {
 		// Default constructor
-		// Create array of size DEFAULT_MAX_CAPACITY
+		listArray = (T[]) new Object[LinearListADT.DEFAULT_MAX_CAPACITY];
 		this.objectCount = 0;
 		this.headIdx = -1;
 		this.tailIdx = -1;
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int maxCapacity) {
 		// Custom constructor
-		// Create array of size maxCapacity
+		listArray = (T[]) new Object[maxCapacity];
 		this.objectCount = 0;
 		this.headIdx = -1;
 		this.tailIdx = -1;
@@ -25,18 +28,24 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	@Override
 	public void ends() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public boolean addFirst(T obj) {
-		// TODO Auto-generated method stub
+		// If full, return false
+		// If empty, add item at location [0]
+		// Otherwise, decrement headIdx and add item (use modulo for wrap around)
+		// Increment objectCount and return true
 		return false;
 	}
 
 	@Override
 	public boolean addLast(T obj) {
-		// TODO Auto-generated method stub
+		// If full, return false
+		// If empty, add item at location [0]
+		// Otherwise, increment tailIdx and add item (use modulo for wrap around)
+		// Increment objectCount and return true
 		return false;
 	}
 
@@ -60,6 +69,8 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 
 	@Override
 	public T peekFirst() {
+		// if (!this.isEmpty())
+		// return first item
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -85,19 +96,17 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.objectCount == 0;
 	}
 
 	@Override
 	public boolean isFull() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.objectCount == listArray.length;
 	}
 
 	@Override
