@@ -3,6 +3,24 @@ package data_structures;
 import java.util.Iterator;
 
 public class ArrayLinearList<T> implements LinearListADT<T> {
+	
+	private int objectCount, headIdx, tailIdx;
+	
+	public ArrayLinearList() {
+		// Default constructor
+		// Create array of size DEFAULT_MAX_CAPACITY
+		this.objectCount = 0;
+		this.headIdx = -1;
+		this.tailIdx = -1;
+	}
+	
+	public ArrayLinearList(int maxCapacity) {
+		// Custom constructor
+		// Create array of size maxCapacity
+		this.objectCount = 0;
+		this.headIdx = -1;
+		this.tailIdx = -1;
+	}
 
 	@Override
 	public void ends() {
