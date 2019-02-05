@@ -42,8 +42,7 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@Override
 	public void ends() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Front: " +this.headIdx+ " Rear: " +this.tailIdx);
 	}
 
 	/*
