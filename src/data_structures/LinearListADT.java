@@ -2,7 +2,7 @@ package data_structures;
 
 import java.util.Iterator;
 
-public interface LinearListADT<T> extends Iterable<T> {
+public interface LinearListADT<T> extends Iterable<T>, Comparable<T> {
 
 	public static final int DEFAULT_MAX_CAPACITY = 100;
 	

@@ -2,6 +2,14 @@ package data_structures;
 
 import java.util.Iterator;
 
+/**
+ * Program #1
+ * Array list for data storage of max size 100
+ * CS310
+ * 16 February 2019
+ * @author Hannah Juarez csscXXXX
+ */
+
 public class ArrayLinearList<T> implements LinearListADT<T> {
 
 	private T listArray[];
@@ -182,6 +190,12 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	public Iterator<T> iterator() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int compareTo(T o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
