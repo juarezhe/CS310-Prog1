@@ -116,40 +116,64 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 		return null;
 	}
 
+	/*
+	 * Returns true if the parameter object obj is in the list, false otherwise. The
+	 * list is not modified.
+	 */
 	@Override
 	public boolean contains(T obj) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/*
+	 * Returns the element matching obj if it is in the list, null otherwise. In the
+	 * case of duplicates, this method returns the element closest to front. The
+	 * list is not modified.
+	 */
 	@Override
 	public T find(T obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/*
+	 * The list is returned to an empty state.
+	 */
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/*
+	 * Returns true if the list is empty, otherwise false
+	 */
 	@Override
 	public boolean isEmpty() {
 		return this.objectCount == 0;
 	}
 
+	/*
+	 * Returns true if the list is full, otherwise false
+	 */
 	@Override
 	public boolean isFull() {
 		return this.objectCount == listArray.length;
 	}
 
+	/*
+	 * Returns the number of Objects currently in the list.
+	 */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.objectCount;
 	}
 
+	/*
+	 * Returns an Iterator of the values in the list, presented in the same order as
+	 * the underlying order of the list. (front first, rear last)
+	 */
 	@Override
 	public Iterator<T> iterator() {
 		// TODO Auto-generated method stub
