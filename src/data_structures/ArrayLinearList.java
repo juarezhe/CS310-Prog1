@@ -7,18 +7,22 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	private T listArray[];
 	private int objectCount, headIdx, tailIdx;
 
+	/*
+	 * Default constructor
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList() {
-		// Default constructor
 		listArray = (T[]) new Object[LinearListADT.DEFAULT_MAX_CAPACITY];
 		this.objectCount = 0;
 		this.headIdx = -1;
 		this.tailIdx = -1;
 	}
 
+	/*
+	 * Custom constructor
+	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int maxCapacity) {
-		// Custom constructor
 		listArray = (T[]) new Object[maxCapacity];
 		this.objectCount = 0;
 		this.headIdx = -1;
