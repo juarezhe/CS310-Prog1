@@ -25,12 +25,19 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 		this.tailIdx = -1;
 	}
 
+	/*
+	 * Outputs “Front: indexFront Rear: indexRear”
+	 */
 	@Override
 	public void ends() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/*
+	 * Adds the Object obj to the beginning of list and returns true if the list is
+	 * not full. returns false and aborts the insertion if the list is full.
+	 */
 	@Override
 	public boolean addFirst(T obj) {
 		// If full, return false
@@ -40,6 +47,10 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 		return false;
 	}
 
+	/*
+	 * Adds the Object obj to the end of list and returns true if the list is not
+	 * full. returns false and aborts the insertion if the list is full.
+	 */
 	@Override
 	public boolean addLast(T obj) {
 		// If full, return false
@@ -49,29 +60,48 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 		return false;
 	}
 
+	/*
+	 * Removes and returns the parameter object obj in first position in list if the
+	 * list is not empty, null if the list is empty.
+	 */
 	@Override
 	public T removeFirst() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/*
+	 * Removes and returns the parameter object obj in last position in list if the
+	 * list is not empty, null if the list is empty.
+	 */
 	@Override
 	public T removeLast() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/*
+	 * Removes and returns the parameter object obj from the list if the list
+	 * contains it, null otherwise. The ordering of the list is preserved. The list
+	 * may contain duplicate elements. This method removes and returns the first
+	 * matching element found when traversing the list from first position. Note
+	 * that you may have to shift elements to fill in the slot where the deleted
+	 * element was located.
+	 */
 	@Override
 	public T remove(T obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/*
+	 * Returns the first element in the list, null if the list is empty. The list is
+	 * not modified.
+	 */
 	@Override
 	public T peekFirst() {
-		// if (!this.isEmpty())
-		// return first item
-		// TODO Auto-generated method stub
+		if (!this.isEmpty())
+			return this.listArray[this.headIdx];
 		return null;
 	}
 
