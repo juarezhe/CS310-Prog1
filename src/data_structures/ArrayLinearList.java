@@ -79,8 +79,13 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@Override
 	public T removeFirst() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.isEmpty())
+			return null;
+		T itemToReturn = this.listArray[this.headIdx];
+		this.listArray[this.headIdx] = null;
+		this.headIdx = (this.headIdx + 1 + this.listArray.length) % this.listArray.length;
+		this.objectCount--;
+		return itemToReturn;
 	}
 
 	/*
@@ -89,8 +94,13 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@Override
 	public T removeLast() {
-		// TODO Auto-generated method stub
-		return null;
+		if (this.isEmpty())
+			return null;
+		T itemToReturn = this.listArray[this.tailIdx];
+		this.listArray[this.tailIdx] = null;
+		this.tailIdx = (this.tailIdx - 1 + this.listArray.length) % this.listArray.length;
+		this.objectCount--;
+		return itemToReturn;
 	}
 
 	/*
