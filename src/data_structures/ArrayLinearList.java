@@ -3,10 +3,8 @@ package data_structures;
 import java.util.Iterator;
 
 /**
- * Program #1
- * Array list for data storage of max size 100
- * CS310
- * 16 February 2019
+ * Program #1 Array list for data storage of max size 100 CS310 16 February 2019
+ * 
  * @author Hannah Juarez csscXXXX
  */
 
@@ -18,12 +16,8 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	/*
 	 * Default constructor
 	 */
-	@SuppressWarnings("unchecked")
 	public ArrayLinearList() {
-		listArray = (T[]) new Object[LinearListADT.DEFAULT_MAX_CAPACITY];
-		this.objectCount = 0;
-		this.headIdx = -1;
-		this.tailIdx = -1;
+		this(LinearListADT.DEFAULT_MAX_CAPACITY);
 	}
 
 	/*
@@ -33,8 +27,8 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	public ArrayLinearList(int maxCapacity) {
 		listArray = (T[]) new Object[maxCapacity];
 		this.objectCount = 0;
-		this.headIdx = -1;
-		this.tailIdx = -1;
+		this.headIdx = 0;
+		this.tailIdx = 0;
 	}
 
 	/*
@@ -42,7 +36,7 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@Override
 	public void ends() {
-		System.out.println("Front: " +this.headIdx+ " Rear: " +this.tailIdx);
+		System.out.println("Front: " + this.headIdx + " Rear: " + this.tailIdx);
 	}
 
 	/*
@@ -51,11 +45,15 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@Override
 	public boolean addFirst(T obj) {
-		// If full, return false
-		// If empty, add item at location [0]
-		// Otherwise, decrement headIdx and add item (use modulo for wrap around)
-		// Increment objectCount and return true
-		return false;
+		if (this.isFull())
+			return false;
+		if (this.isEmpty())
+			this.headIdx = 0;
+		else
+			this.headIdx = (this.headIdx - 1 + this.listArray.length) % this.listArray.length;
+		this.listArray[this.headIdx] = obj;
+		this.objectCount++;
+		return true;
 	}
 
 	/*
@@ -64,11 +62,15 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@Override
 	public boolean addLast(T obj) {
-		// If full, return false
-		// If empty, add item at location [0]
-		// Otherwise, increment tailIdx and add item (use modulo for wrap around)
-		// Increment objectCount and return true
-		return false;
+		if (this.isFull())
+			return false;
+		if (this.isEmpty())
+			this.tailIdx = 0;
+		else
+			this.tailIdx = (this.tailIdx + 1 + this.listArray.length) % this.listArray.length;
+		this.listArray[this.tailIdx] = obj;
+		this.objectCount++;
+		return true;
 	}
 
 	/*
