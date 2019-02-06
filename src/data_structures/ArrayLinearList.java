@@ -25,7 +25,10 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int maxCapacity) {
-		listArray = (T[]) new Object[maxCapacity];
+		int size = maxCapacity < 1 || maxCapacity >= LinearListADT.DEFAULT_MAX_CAPACITY
+				? LinearListADT.DEFAULT_MAX_CAPACITY
+				: maxCapacity;
+		listArray = (T[]) new Object[size];
 		this.objectCount = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
@@ -163,10 +166,13 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	/*
 	 * The list is returned to an empty state.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-
+		this.listArray = (T[]) new Object[this.listArray.length];
+		this.objectCount = 0;
+		this.headIdx = 0;
+		this.tailIdx = 0;
 	}
 
 	/*
