@@ -116,7 +116,11 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@Override
 	public T remove(T obj) {
-		// TODO Auto-generated method stub
+		// Use find() or contains() to locate item
+		// Store item to return
+		// Compare index of item removed versus head and tail indices
+		// Shift smaller side to fill hole (if same distance, use right side)
+		// Update objectCount and appropriate index
 		return null;
 	}
 
