@@ -2,78 +2,97 @@ package data_structures;
 
 import java.util.Iterator;
 
-public interface LinearListADT<T> extends Iterable<T>, Comparable<T> {
+public interface LinearListADT<T> extends Iterable<T> {
 
 	public static final int DEFAULT_MAX_CAPACITY = 100;
-	
-	/* Outputs “Front: indexFront Rear: indexRear”
-	 */
-	 public void ends();
 
-	 /* Adds the Object obj to the beginning of list and returns true if the list is not
-	 * full.
-	 * returns false and aborts the insertion if the list is full.
+	/*
+	 * Outputs “Front: indexFront Rear: indexRear”
 	 */
-	 public boolean addFirst(T obj);
+	public void ends();
 
-	 /* Adds the Object obj to the end of list and returns true if the list is not full.
-	 * returns false and aborts the insertion if the list is full.
+	/*
+	 * Adds the Object obj to the beginning of list and returns true if the list is
+	 * not full. returns false and aborts the insertion if the list is full.
 	 */
-	 public boolean addLast(T obj);
+	public boolean addFirst(T obj);
 
-	 /* Removes and returns the parameter object obj in first position in list if the list
-	 * is not empty, null if the list is empty.
+	/*
+	 * Adds the Object obj to the end of list and returns true if the list is not
+	 * full. returns false and aborts the insertion if the list is full.
 	 */
-	 public T removeFirst();
-	 /* Removes and returns the parameter object obj in last position in list if the list
-	 * is not empty, null if the list is empty.
-	 */
-	 public T removeLast();
+	public boolean addLast(T obj);
 
-	 /* Removes and returns the parameter object obj from the list if the list contains
-	 * it, null otherwise. The ordering of the list is preserved. The list may contain
-	 * duplicate elements. This method removes and returns the first matching element
-	 * found when traversing the list from first position.
-	 * Note that you may have to shift elements to fill in the slot where the deleted
+	/*
+	 * Removes and returns the parameter object obj in first position in list if the
+	 * list is not empty, null if the list is empty.
+	 */
+	public T removeFirst();
+
+	/*
+	 * Removes and returns the parameter object obj in last position in list if the
+	 * list is not empty, null if the list is empty.
+	 */
+	public T removeLast();
+
+	/*
+	 * Removes and returns the parameter object obj from the list if the list
+	 * contains it, null otherwise. The ordering of the list is preserved. The list
+	 * may contain duplicate elements. This method removes and returns the first
+	 * matching element found when traversing the list from first position. Note
+	 * that you may have to shift elements to fill in the slot where the deleted
 	 * element was located.
 	 */
-	 public T remove(T obj);
+	public T remove(T obj);
 
-	 /* Returns the first element in the list, null if the list is empty.
-	 * The list is not modified.
+	/*
+	 * Returns the first element in the list, null if the list is empty. The list is
+	 * not modified.
 	 */
-	 public T peekFirst();
+	public T peekFirst();
 
-	 /* Returns the last element in the list, null if the list is empty.
-	 * The list is not modified.
+	/*
+	 * Returns the last element in the list, null if the list is empty. The list is
+	 * not modified.
 	 */
-	 public T peekLast();
-	 /* Returns true if the parameter object obj is in the list, false otherwise.
-	 * The list is not modified.
-	 */
-	 public boolean contains(T obj);
+	public T peekLast();
 
-	 /* Returns the element matching obj if it is in the list, null otherwise.
-	 * In the case of duplicates, this method returns the element closest to front.
-	 * The list is not modified.
+	/*
+	 * Returns true if the parameter object obj is in the list, false otherwise. The
+	 * list is not modified.
 	 */
-	 public T find(T obj);
-	 /* The list is returned to an empty state.
-	 */
-	 public void clear();
-	 /* Returns true if the list is empty, otherwise false
-	 */
-	 public boolean isEmpty();
+	public boolean contains(T obj);
 
-	 /* Returns true if the list is full, otherwise false
+	/*
+	 * Returns the element matching obj if it is in the list, null otherwise. In the
+	 * case of duplicates, this method returns the element closest to front. The
+	 * list is not modified.
 	 */
-	 public boolean isFull();
-	 /* Returns the number of Objects currently in the list.
-	 */
-	 public int size();
+	public T find(T obj);
 
-	 /* Returns an Iterator of the values in the list, presented in
-	 * the same order as the underlying order of the list. (front first, rear last)
+	/*
+	 * The list is returned to an empty state.
 	 */
-	 public Iterator<T> iterator();
+	public void clear();
+
+	/*
+	 * Returns true if the list is empty, otherwise false
+	 */
+	public boolean isEmpty();
+
+	/*
+	 * Returns true if the list is full, otherwise false
+	 */
+	public boolean isFull();
+
+	/*
+	 * Returns the number of Objects currently in the list.
+	 */
+	public int size();
+
+	/*
+	 * Returns an Iterator of the values in the list, presented in the same order as
+	 * the underlying order of the list. (front first, rear last)
+	 */
+	public Iterator<T> iterator();
 }

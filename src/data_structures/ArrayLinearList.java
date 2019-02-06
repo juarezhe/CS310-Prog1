@@ -213,10 +213,4 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 		return null;
 	}
 
-	@Override
-	public int compareTo(T o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }
