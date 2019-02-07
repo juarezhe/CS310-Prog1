@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * Program #1 Array list for data storage of max size 100 CS310 16 February 2019
  * 
- * @author Hannah Juarez csscXXXX
+ * @author Hannah Juarez cssc1481
  */
 
 public class ArrayLinearList<T> implements LinearListADT<T> {
