@@ -25,9 +25,13 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int maxCapacity) {
-		int size = maxCapacity < 1 || maxCapacity >= LinearListADT.DEFAULT_MAX_CAPACITY
-				? LinearListADT.DEFAULT_MAX_CAPACITY
-				: maxCapacity;
+		int size;
+		if (maxCapacity < 1)
+			size = 1;
+		else if (maxCapacity > DEFAULT_MAX_CAPACITY)
+			size = DEFAULT_MAX_CAPACITY;
+		else
+			size = maxCapacity;
 		listArray = (T[]) new Object[size];
 		this.objectCount = 0;
 		this.headIdx = 0;
