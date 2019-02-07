@@ -28,6 +28,8 @@ public class Driver {
 		System.out.println("Requested\t| Size: " + SIZE5);
 		ArrayLinearList<String> list5 = new ArrayLinearList<String>(SIZE5);
 		verboseTest(list5);
+		
+		// TODO Add try-catches for invalid types
 	}
 
 	private static void simpleTest(ArrayLinearList<String> list) {

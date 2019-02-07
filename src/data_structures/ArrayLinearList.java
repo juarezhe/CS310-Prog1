@@ -8,7 +8,7 @@ import java.util.Iterator;
  * @author Hannah Juarez cssc1481
  */
 
-public class ArrayLinearList<T> implements LinearListADT<T> {
+public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T> {
 
 	private T listArray[];
 	private int objectCount, headIdx, tailIdx;
