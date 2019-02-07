@@ -1,37 +1,42 @@
 import data_structures.ArrayLinearList;
 
 public class Driver {
-	private static final int SIZE1 = -1;
-	private static final String SIZE2 = "default";
-	private static final int SIZE3 = 101;
-	private static final double SIZE4 = 2147483647.0;
-	private static final int SIZE5 = 3;
+	private static final Object[] SIZES = { -10, "default", 101, 2147483647, 7.0, 3 };
 
 	public static void main(String[] args) {
-		// Test constructors
-		System.out.println("Requested\t| Size: " + SIZE1);
-		ArrayLinearList<String> list1 = new ArrayLinearList<String>(SIZE1);
-		simpleTest(list1);
+		for (Object curr : SIZES) {
+			System.out.println("Requested\t| Size: " + curr);
 
-		System.out.println("Requested\t| Size: " + SIZE2);
-		ArrayLinearList<String> list2 = new ArrayLinearList<String>();
-		simpleTest(list2);
+			try {
+				int size = Integer.parseInt(curr.toString());
+				ArrayLinearList<String> list = new ArrayLinearList<String>(size);
+				if (size > 5 || size < -5)
+					simpleTest(list);
+				else
+					verboseTest(list);
+			} catch (Exception e) {
+				System.out.println("Failed to cast " + curr + " to int.");
+				System.out.println();
+			}
+		}
 
-		System.out.println("Requested\t| Size: " + SIZE3);
-		ArrayLinearList<String> list3 = new ArrayLinearList<String>(SIZE3);
-		simpleTest(list3);
-
-		System.out.println("Requested\t| Size: " + SIZE4);
-		ArrayLinearList<String> list4 = new ArrayLinearList<String>((int) SIZE4);
-		simpleTest(list4);
-
-		System.out.println("Requested\t| Size: " + SIZE5);
-		ArrayLinearList<String> list5 = new ArrayLinearList<String>(SIZE5);
-		verboseTest(list5);
-		
 		// TODO Add try-catches for invalid types
+		// TODO Add tests for peekFirst and peekLast
 	}
 
+	/*
+	 * Print the current size and ends of list.
+	 */
+	private static void printInfo(ArrayLinearList<String> list) {
+		System.out.print("Size: " + list.size() + "\t| ");
+		list.ends();
+	}
+
+	/*
+	 * Recommended for larger lists.
+	 * 
+	 * Add to front until full, clear list, then add to back until full.
+	 */
 	private static void simpleTest(ArrayLinearList<String> list) {
 		System.out.print("Initial state\t| ");
 		printInfo(list);
@@ -52,13 +57,20 @@ public class Driver {
 		System.out.println();
 	}
 
+	/*
+	 * Recommended for smaller lists.
+	 * 
+	 * Add to front until full, alternate removal from back and addition to front
+	 * several times, remove from back until empty, add to front once (to test index
+	 * reset). Clear list and repeat in reverse.
+	 */
 	private static void verboseTest(ArrayLinearList<String> list) {
 		System.out.print("Initial state\t| ");
 		printInfo(list);
 		while (!list.isFull())
 			addFirstTest(list);
 		addFirstTest(list);
-		for (int n = 0; n < SIZE5; n++) {
+		for (int n = 0; n < 3; n++) {
 			removeLastTest(list);
 			addFirstTest(list);
 		}
@@ -71,13 +83,13 @@ public class Driver {
 
 		list.clear();
 		System.out.println("Clear");
-		
+
 		System.out.print("Initial state\t| ");
 		printInfo(list);
 		while (!list.isFull())
 			addLastTest(list);
 		addLastTest(list);
-		for (int n = 0; n < SIZE5; n++) {
+		for (int n = 0; n < 3; n++) {
 			removeFirstTest(list);
 			addLastTest(list);
 		}
@@ -90,11 +102,9 @@ public class Driver {
 		System.out.println();
 	}
 
-	private static void printInfo(ArrayLinearList<String> list) {
-		System.out.print("Size: " + list.size() + "\t| ");
-		list.ends();
-	}
-
+	/*
+	 * Add item to front, print success or failure of each add + state of list
+	 */
 	private static void addFirstTest(ArrayLinearList<String> list) {
 		String item = "a";
 		if (list.addFirst(item))
@@ -104,6 +114,9 @@ public class Driver {
 		printInfo(list);
 	}
 
+	/*
+	 * Add item to back, print success or failure of each add + state of list
+	 */
 	private static void addLastTest(ArrayLinearList<String> list) {
 		String item = "b";
 		if (list.addLast(item))

@@ -27,12 +27,12 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	public ArrayLinearList(int maxCapacity) {
 		int size;
 		if (maxCapacity < 1)
-			size = 1;
-		else if (maxCapacity > DEFAULT_MAX_CAPACITY)
+			maxCapacity = maxCapacity * -1;
+		if (maxCapacity > DEFAULT_MAX_CAPACITY)
 			size = DEFAULT_MAX_CAPACITY;
 		else
 			size = maxCapacity;
-		listArray = (T[]) new Object[size];
+		listArray = (T[]) new Comparable[size];
 		this.objectCount = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
@@ -171,6 +171,10 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 */
 	@Override
 	public T find(T obj) {
+		for (T item : listArray) {
+			if (item.equals(obj))
+				return item;
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -181,7 +185,7 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	@SuppressWarnings("unchecked")
 	@Override
 	public void clear() {
-		this.listArray = (T[]) new Object[this.listArray.length];
+		this.listArray = (T[]) new Comparable[this.listArray.length];
 		this.objectCount = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
