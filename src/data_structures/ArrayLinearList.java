@@ -54,9 +54,10 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	public boolean addFirst(T obj) {
 		if (this.isFull())
 			return false;
-		if (this.isEmpty())
+		if (this.isEmpty()) {
 			this.headIdx = 0;
-		else
+			this.tailIdx = 0;
+		} else
 			this.headIdx = (this.headIdx - 1 + this.listArray.length) % this.listArray.length;
 		this.listArray[this.headIdx] = obj;
 		this.objectCount++;
@@ -71,9 +72,10 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 	public boolean addLast(T obj) {
 		if (this.isFull())
 			return false;
-		if (this.isEmpty())
+		if (this.isEmpty()) {
+			this.headIdx = 0;
 			this.tailIdx = 0;
-		else
+		} else
 			this.tailIdx = (this.tailIdx + 1 + this.listArray.length) % this.listArray.length;
 		this.listArray[this.tailIdx] = obj;
 		this.objectCount++;
@@ -90,7 +92,8 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 			return null;
 		T itemToReturn = this.listArray[this.headIdx];
 		this.listArray[this.headIdx] = null;
-		this.headIdx = (this.headIdx + 1 + this.listArray.length) % this.listArray.length;
+		this.headIdx = this.size() > 1 ? (this.headIdx + 1 + this.listArray.length) % this.listArray.length
+				: this.headIdx;
 		this.objectCount--;
 		return itemToReturn;
 	}
@@ -105,7 +108,8 @@ public class ArrayLinearList<T> implements LinearListADT<T> {
 			return null;
 		T itemToReturn = this.listArray[this.tailIdx];
 		this.listArray[this.tailIdx] = null;
-		this.tailIdx = (this.tailIdx - 1 + this.listArray.length) % this.listArray.length;
+		this.tailIdx = this.size() > 1 ? (this.tailIdx - 1 + this.listArray.length) % this.listArray.length
+				: this.tailIdx;
 		this.objectCount--;
 		return itemToReturn;
 	}

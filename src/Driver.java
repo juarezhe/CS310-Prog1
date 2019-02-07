@@ -2,39 +2,39 @@ import data_structures.ArrayLinearList;
 
 public class Driver {
 	private static final int SIZE1 = -1;
-	private static final int SIZE2 = 3;
-	private static final String SIZE3 = "default";
-	private static final int SIZE4 = 101;
-	private static final double SIZE5 = 2147483647.0;
+	private static final String SIZE2 = "default";
+	private static final int SIZE3 = 101;
+	private static final double SIZE4 = 2147483647.0;
+	private static final int SIZE5 = 3;
 
 	public static void main(String[] args) {
 		// Test constructors
 		System.out.println("Requested\t| Size: " + SIZE1);
 		ArrayLinearList<String> list1 = new ArrayLinearList<String>(SIZE1);
-		verboseTest(list1);
+		simpleTest(list1);
 
 		System.out.println("Requested\t| Size: " + SIZE2);
-		ArrayLinearList<String> list2 = new ArrayLinearList<String>(SIZE2);
-		verboseTest(list2);
+		ArrayLinearList<String> list2 = new ArrayLinearList<String>();
+		simpleTest(list2);
 
 		System.out.println("Requested\t| Size: " + SIZE3);
-		ArrayLinearList<String> list3 = new ArrayLinearList<String>();
+		ArrayLinearList<String> list3 = new ArrayLinearList<String>(SIZE3);
 		simpleTest(list3);
 
 		System.out.println("Requested\t| Size: " + SIZE4);
-		ArrayLinearList<String> list4 = new ArrayLinearList<String>(SIZE4);
+		ArrayLinearList<String> list4 = new ArrayLinearList<String>((int) SIZE4);
 		simpleTest(list4);
 
 		System.out.println("Requested\t| Size: " + SIZE5);
-		ArrayLinearList<String> list5 = new ArrayLinearList<String>((int) SIZE5);
-		simpleTest(list5);
+		ArrayLinearList<String> list5 = new ArrayLinearList<String>(SIZE5);
+		verboseTest(list5);
 	}
 
 	private static void simpleTest(ArrayLinearList<String> list) {
 		System.out.print("Initial state\t| ");
 		printInfo(list);
 		while (!list.isFull())
-			list.addLast("a");
+			list.addFirst("a");
 		System.out.print("Final state\t| ");
 		printInfo(list);
 
@@ -77,6 +77,28 @@ public class Driver {
 			removeLastTest(list);
 		removeFirstTest(list);
 		removeLastTest(list);
+		
+		list.clear();
+		System.out.println("Clear");
+		
+		addFirstTest(list);
+		addLastTest(list);
+		addFirstTest(list);
+		addFirstTest(list);
+		addLastTest(list);
+
+		removeLastTest(list);
+		addFirstTest(list);
+		addFirstTest(list);
+		addLastTest(list);
+		
+		removeFirstTest(list);
+		removeLastTest(list);
+		removeFirstTest(list);
+		removeLastTest(list);
+		
+		addFirstTest(list);
+		
 		System.out.print("Final state\t| ");
 		printInfo(list);
 		System.out.println();
@@ -88,18 +110,20 @@ public class Driver {
 	}
 
 	private static void addFirstTest(ArrayLinearList<String> list) {
-		if (list.addFirst("a"))
-			System.out.print("addFirst success| ");
+		String item = "a";
+		if (list.addFirst(item))
+			System.out.print("addFirst \"" + item + "\"\t| ");
 		else
-			System.out.print("addFirst failure| ");
+			System.out.print("addFirst fail\t| ");
 		printInfo(list);
 	}
 
 	private static void addLastTest(ArrayLinearList<String> list) {
-		if (list.addLast("b"))
-			System.out.print("addLast success\t| ");
+		String item = "b";
+		if (list.addLast(item))
+			System.out.print("addLast \"" + item + "\"\t| ");
 		else
-			System.out.print("addLast failure\t| ");
+			System.out.print("addLast fail\t| ");
 		printInfo(list);
 	}
 
@@ -108,7 +132,7 @@ public class Driver {
 		if (item == null)
 			System.out.print("removeFirst fail| ");
 		else
-			System.out.print("Removed \"" + item + "\"\t| ");
+			System.out.print("removeFirst \"" + item + "\"\t| ");
 		printInfo(list);
 	}
 
@@ -117,7 +141,7 @@ public class Driver {
 		if (item == null)
 			System.out.print("removeLast fail\t| ");
 		else
-			System.out.print("Removed \"" + item + "\"\t| ");
+			System.out.print("removeLast \"" + item + "\"\t| ");
 		printInfo(list);
 	}
 
