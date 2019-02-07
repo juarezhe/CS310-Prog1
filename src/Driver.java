@@ -56,49 +56,33 @@ public class Driver {
 		while (!list.isFull())
 			addFirstTest(list);
 		addFirstTest(list);
-		addLastTest(list);
+		for (int n = 0; n < SIZE5; n++) {
+			removeLastTest(list);
+			addFirstTest(list);
+		}
 		while (!list.isEmpty())
-			removeFirstTest(list);
-		removeFirstTest(list);
+			removeLastTest(list);
 		removeLastTest(list);
+		addFirstTest(list);
 		System.out.print("Final state\t| ");
 		printInfo(list);
 
 		list.clear();
 		System.out.println("Clear");
-
+		
 		System.out.print("Initial state\t| ");
 		printInfo(list);
 		while (!list.isFull())
 			addLastTest(list);
-		addFirstTest(list);
 		addLastTest(list);
+		for (int n = 0; n < SIZE5; n++) {
+			removeFirstTest(list);
+			addLastTest(list);
+		}
 		while (!list.isEmpty())
-			removeLastTest(list);
+			removeFirstTest(list);
 		removeFirstTest(list);
-		removeLastTest(list);
-		
-		list.clear();
-		System.out.println("Clear");
-		
-		addFirstTest(list);
 		addLastTest(list);
-		addFirstTest(list);
-		addFirstTest(list);
-		addLastTest(list);
-
-		removeLastTest(list);
-		addFirstTest(list);
-		addFirstTest(list);
-		addLastTest(list);
-		
-		removeFirstTest(list);
-		removeLastTest(list);
-		removeFirstTest(list);
-		removeLastTest(list);
-		
-		addFirstTest(list);
-		
 		System.out.print("Final state\t| ");
 		printInfo(list);
 		System.out.println();
