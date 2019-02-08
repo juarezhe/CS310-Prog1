@@ -3,7 +3,8 @@ import data_structures.*;
 public class Driver {
 	private static final Object[] SIZES = { "default", 101, 2147483647, 7.0, -10 };
 	private static LinearListADT<Integer> list;
-	private static final int TEST_COUNT = 11;
+	private static final int TEST_LOOP_COUNT = 11;
+	private static final int VERBOSE_TEST_SIZE_MAX = 10;
 
 	public static void main(String[] args) {
 		for (Object curr : SIZES) {
@@ -12,7 +13,7 @@ public class Driver {
 			try {
 				Integer size = Integer.parseInt(curr.toString());
 				list = new ArrayLinearList<Integer>(size);
-				if (size > 10 || size < -10)
+				if (size > VERBOSE_TEST_SIZE_MAX || size < -1 * VERBOSE_TEST_SIZE_MAX)
 					simpleTest(list);
 				else
 					verboseTest(list);
@@ -67,14 +68,14 @@ public class Driver {
 	private static void verboseTest(LinearListADT<Integer> list) {
 		System.out.print("Initial state\t| ");
 		printInfo(list);
-		for (int i = 1; i <= TEST_COUNT; i++) {
+		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
 			if (list.addLast(i))
 				System.out.print("addLast " + i + "\t| ");
 			else
 				System.out.print("addLast fail\t| ");
 			printInfo(list);
 		}
-		for (int i = 1; i <= TEST_COUNT; i++) {
+		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
 			Integer item = list.removeLast();
 			if (item == null)
 				System.out.print("removeLast fail\t| ");
@@ -82,14 +83,14 @@ public class Driver {
 				System.out.print("removeLast " + item + "\t| ");
 			printInfo(list);
 		}
-		for (int i = 1; i <= TEST_COUNT; i++) {
+		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
 			if (list.addLast(i))
 				System.out.print("addLast " + i + "\t| ");
 			else
 				System.out.print("addLast fail\t| ");
 			printInfo(list);
 		}
-		for (int i = 1; i <= TEST_COUNT / 2; i++) {
+		for (int i = 1; i <= TEST_LOOP_COUNT / 2; i++) {
 			System.out.print("remove " + list.remove(i) + "\t| ");
 			printInfo(list);
 			list.addLast(i);
@@ -99,7 +100,7 @@ public class Driver {
 		for (Integer i : list)
 			System.out.println(i);
 	
-		for (int i = 1; i <= TEST_COUNT; i++) {
+		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
 			Integer item = list.removeFirst();
 			if (item == null)
 				System.out.print("removeFirst fail| ");
