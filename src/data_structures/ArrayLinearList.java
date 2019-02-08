@@ -127,23 +127,40 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 */
 	@Override
 	public T remove(T obj) {
-		boolean itemFound = false;
+		boolean isFound = false;
 		T itemToReturn = null;
+		int idx = 0;
+		int curr, next;
 
-		for (int idx = 0; idx < this.objectCount; idx++) {
-			int curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
-			int next = (this.headIdx + idx + this.listArray.length + 1) % this.listArray.length;
-			if (itemFound) {
-				this.listArray[curr] = this.listArray[next];
-			} else if (this.listArray[(this.headIdx + idx + this.listArray.length) % this.listArray.length] == obj) {
+		while (!isFound && idx < this.size()) {
+			curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
+
+			if (this.listArray[curr] == obj) {
 				itemToReturn = this.listArray[curr];
-				this.listArray[curr] = this.listArray[next];
-				itemFound = true;
+				isFound = true;
+				break;
 			}
+			idx++;
 		}
-		if (itemFound) {
+		if (isFound) {
+			if (this.size() - idx < idx + 1) {
+				while (idx < this.size() - 1) {
+					curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
+					next = (this.headIdx + idx + this.listArray.length + 1) % this.listArray.length;
+					this.listArray[curr] = this.listArray[next];
+					idx++;
+				}
+				this.tailIdx = (this.tailIdx + this.listArray.length - 1) % this.listArray.length;
+			} else {
+				while (idx > 0) {
+					curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
+					next = (this.headIdx + idx + this.listArray.length - 1) % this.listArray.length;
+					this.listArray[curr] = this.listArray[next];
+					idx--;
+				}
+				this.headIdx = (this.headIdx + this.listArray.length + 1) % this.listArray.length;
+			}
 			this.objectCount--;
-			this.tailIdx--;
 		}
 		return itemToReturn;
 	}
