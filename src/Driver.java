@@ -1,4 +1,4 @@
-import data_structures.ArrayLinearList;
+import data_structures.*;
 
 public class Driver {
 	private static final Object[] SIZES = { -10, "default", 101, 2147483647, 7.0, 3 };
@@ -9,7 +9,7 @@ public class Driver {
 
 			try {
 				int size = Integer.parseInt(curr.toString());
-				ArrayLinearList<String> list = new ArrayLinearList<String>(size);
+				LinearListADT<String> list = new ArrayLinearList<String>(size);
 				if (size > 5 || size < -5)
 					simpleTest(list);
 				else
@@ -27,7 +27,7 @@ public class Driver {
 	/*
 	 * Print the current size and ends of list.
 	 */
-	private static void printInfo(ArrayLinearList<String> list) {
+	private static void printInfo(LinearListADT<String> list) {
 		System.out.print("Size: " + list.size() + "\t| ");
 		list.ends();
 	}
@@ -37,7 +37,7 @@ public class Driver {
 	 * 
 	 * Add to front until full, clear list, then add to back until full.
 	 */
-	private static void simpleTest(ArrayLinearList<String> list) {
+	private static void simpleTest(LinearListADT<String> list) {
 		System.out.print("Initial state\t| ");
 		printInfo(list);
 		while (!list.isFull())
@@ -64,7 +64,7 @@ public class Driver {
 	 * several times, remove from back until empty, add to front once (to test index
 	 * reset). Clear list and repeat in reverse.
 	 */
-	private static void verboseTest(ArrayLinearList<String> list) {
+	private static void verboseTest(LinearListADT<String> list) {
 		System.out.print("Initial state\t| ");
 		printInfo(list);
 		while (!list.isFull())
@@ -105,7 +105,7 @@ public class Driver {
 	/*
 	 * Add item to front, print success or failure of each add + state of list
 	 */
-	private static void addFirstTest(ArrayLinearList<String> list) {
+	private static void addFirstTest(LinearListADT<String> list) {
 		String item = "a";
 		if (list.addFirst(item))
 			System.out.print("addFirst \"" + item + "\"\t| ");
@@ -117,7 +117,7 @@ public class Driver {
 	/*
 	 * Add item to back, print success or failure of each add + state of list
 	 */
-	private static void addLastTest(ArrayLinearList<String> list) {
+	private static void addLastTest(LinearListADT<String> list) {
 		String item = "b";
 		if (list.addLast(item))
 			System.out.print("addLast \"" + item + "\"\t| ");
@@ -126,7 +126,7 @@ public class Driver {
 		printInfo(list);
 	}
 
-	private static void removeFirstTest(ArrayLinearList<String> list) {
+	private static void removeFirstTest(LinearListADT<String> list) {
 		String item = list.removeFirst();
 		if (item == null)
 			System.out.print("removeFirst fail| ");
@@ -135,7 +135,7 @@ public class Driver {
 		printInfo(list);
 	}
 
-	private static void removeLastTest(ArrayLinearList<String> list) {
+	private static void removeLastTest(LinearListADT<String> list) {
 		String item = list.removeLast();
 		if (item == null)
 			System.out.print("removeLast fail\t| ");

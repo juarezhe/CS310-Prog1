@@ -22,6 +22,8 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 
 	/*
 	 * Custom constructor
+	 * 
+	 * Converts negative values to positive and forces within 1 to 100 range
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int maxCapacity) {
