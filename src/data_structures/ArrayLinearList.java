@@ -126,12 +126,27 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 */
 	@Override
 	public T remove(T obj) {
-		// Use find() or contains() to locate item
-		// Store item to return
-		// Compare index of item removed versus head and tail indices
-		// Shift smaller side to fill hole (if same distance, use right side)
-		// Update objectCount and appropriate index
-		return null;
+		T itemToReturn = null;
+		for (int idx = this.headIdx; this.headIdx != this.tailIdx; idx = (1 + idx + this.listArray.length)
+				% this.listArray.length) {
+			if (this.listArray[idx].equals(obj)) {
+				itemToReturn = this.listArray[idx];
+				this.objectCount--;
+
+				if (this.objectCount - idx < idx) {
+					for (int i = idx; i != this.tailIdx; i = (i + this.listArray.length + 1) % this.listArray.length)
+						this.listArray[i] = this.listArray[i + 1];
+					this.listArray[this.tailIdx] = null;
+					this.tailIdx--;
+				} else {
+					for (int i = idx; i != this.headIdx; i = (i + this.listArray.length - 1) % this.listArray.length)
+						this.listArray[i] = this.listArray[i - 1];
+					this.listArray[this.headIdx] = null;
+					this.headIdx++;
+				}
+			}
+		}
+		return itemToReturn;
 	}
 
 	/*
