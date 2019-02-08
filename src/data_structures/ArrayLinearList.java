@@ -162,7 +162,10 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 */
 	@Override
 	public boolean contains(T obj) {
-		// TODO Auto-generated method stub
+		for (T item : this.listArray) {
+			if (item.equals(obj))
+				return true;
+		}
 		return false;
 	}
 
@@ -177,7 +180,6 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 			if (item.equals(obj))
 				return item;
 		}
-		// TODO Auto-generated method stub
 		return null;
 	}
 

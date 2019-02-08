@@ -2,6 +2,7 @@ import data_structures.*;
 
 public class Driver {
 	private static final Object[] SIZES = { -10, "default", 101, 2147483647, 7.0, 3 };
+	private static LinearListADT<String> list;
 
 	public static void main(String[] args) {
 		for (Object curr : SIZES) {
@@ -9,7 +10,7 @@ public class Driver {
 
 			try {
 				int size = Integer.parseInt(curr.toString());
-				LinearListADT<String> list = new ArrayLinearList<String>(size);
+				list = new ArrayLinearList<String>(size);
 				if (size > 5 || size < -5)
 					simpleTest(list);
 				else
