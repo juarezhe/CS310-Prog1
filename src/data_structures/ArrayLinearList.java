@@ -173,7 +173,7 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 */
 	@Override
 	public T find(T obj) {
-		for (T item : listArray) {
+		for (T item : this.listArray) {
 			if (item.equals(obj))
 				return item;
 		}
