@@ -20,8 +20,6 @@ public class Driver {
 				System.out.println();
 			}
 		}
-
-		// TODO Add try-catches for invalid types
 		// TODO Add tests for peekFirst and peekLast
 	}
 

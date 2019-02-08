@@ -1,6 +1,7 @@
 package data_structures;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Program #1 Array list for data storage of max size 100 CS310 16 February 2019
@@ -8,10 +9,10 @@ import java.util.Iterator;
  * @author Hannah Juarez cssc1481
  */
 
-public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T> {
+public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T>, Iterator<T> {
 
 	private T listArray[];
-	private int objectCount, headIdx, tailIdx;
+	private int objectCount, headIdx, tailIdx, iteratorIdx;
 
 	/*
 	 * Default constructor
@@ -126,25 +127,23 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 */
 	@Override
 	public T remove(T obj) {
+		boolean itemFound = false;
 		T itemToReturn = null;
-		for (int idx = this.headIdx; this.headIdx != this.tailIdx; idx = (1 + idx + this.listArray.length)
-				% this.listArray.length) {
-			if (this.listArray[idx].equals(obj)) {
-				itemToReturn = this.listArray[idx];
-				this.objectCount--;
 
-				if (this.objectCount - idx < idx) {
-					for (int i = idx; i != this.tailIdx; i = (i + this.listArray.length + 1) % this.listArray.length)
-						this.listArray[i] = this.listArray[i + 1];
-					this.listArray[this.tailIdx] = null;
-					this.tailIdx--;
-				} else {
-					for (int i = idx; i != this.headIdx; i = (i + this.listArray.length - 1) % this.listArray.length)
-						this.listArray[i] = this.listArray[i - 1];
-					this.listArray[this.headIdx] = null;
-					this.headIdx++;
-				}
+		for (int idx = 0; idx < this.objectCount; idx++) {
+			int curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
+			int next = (this.headIdx + idx + this.listArray.length + 1) % this.listArray.length;
+			if (itemFound) {
+				this.listArray[curr] = this.listArray[next];
+			} else if (this.listArray[(this.headIdx + idx + this.listArray.length) % this.listArray.length] == obj) {
+				itemToReturn = this.listArray[curr];
+				this.listArray[curr] = this.listArray[next];
+				itemFound = true;
 			}
+		}
+		if (itemFound) {
+			this.objectCount--;
+			this.tailIdx--;
 		}
 		return itemToReturn;
 	}
@@ -240,8 +239,23 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 */
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+		this.iteratorIdx = 0;
+		return (Iterator<T>) this;
+	}
+
+	@Override
+	public boolean hasNext() {
+		return this.iteratorIdx < this.objectCount;
+	}
+
+	@Override
+	public T next() {
+		if (!hasNext())
+			throw new NoSuchElementException();
+		T itemToReturn = this.listArray[(this.headIdx + this.iteratorIdx + this.listArray.length)
+				% this.listArray.length];
+		this.iteratorIdx++;
+		return itemToReturn;
 	}
 
 }
