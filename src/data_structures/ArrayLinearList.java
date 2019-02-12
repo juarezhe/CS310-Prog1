@@ -9,13 +9,15 @@ import java.util.NoSuchElementException;
  * @author Hannah Juarez cssc1481
  */
 
-public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T>, Iterator<T> {
+public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E>, Iterator<E> {
 
-	private T listArray[];
+	private E listArray[];
 	private int objectCount, headIdx, tailIdx, iteratorIdx;
 
 	/*
 	 * Default constructor
+	 * 
+	 * Calls custom constructor using LinearListADT.DEFAULT_MAX_CAPACITY
 	 */
 	public ArrayLinearList() {
 		this(LinearListADT.DEFAULT_MAX_CAPACITY);
@@ -24,18 +26,14 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	/*
 	 * Custom constructor
 	 * 
-	 * Enforces minimum size of 1 and maximum of 100
+	 * Enforces maximum size of 100, allows compiler to handle negative sizes
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int maxCapacity) {
-		int size;
-		if (maxCapacity < 1)
-			size = 1;
-		else if (maxCapacity > DEFAULT_MAX_CAPACITY)
-			size = DEFAULT_MAX_CAPACITY;
+		if (maxCapacity > DEFAULT_MAX_CAPACITY)
+			listArray = (E[]) new Comparable[DEFAULT_MAX_CAPACITY];
 		else
-			size = maxCapacity;
-		listArray = (T[]) new Comparable[size];
+			listArray = (E[]) new Comparable[maxCapacity];
 		this.objectCount = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
@@ -54,13 +52,10 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * not full. returns false and aborts the insertion if the list is full.
 	 */
 	@Override
-	public boolean addFirst(T obj) {
+	public boolean addFirst(E obj) {
 		if (this.isFull())
 			return false;
-		if (this.isEmpty()) {
-			this.headIdx = 0;
-			this.tailIdx = 0;
-		} else
+		if (!this.isEmpty())
 			this.headIdx = (this.headIdx - 1 + this.listArray.length) % this.listArray.length;
 		this.listArray[this.headIdx] = obj;
 		this.objectCount++;
@@ -72,13 +67,10 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * full. returns false and aborts the insertion if the list is full.
 	 */
 	@Override
-	public boolean addLast(T obj) {
+	public boolean addLast(E obj) {
 		if (this.isFull())
 			return false;
-		if (this.isEmpty()) {
-			this.headIdx = 0;
-			this.tailIdx = 0;
-		} else
+		if (!this.isEmpty())
 			this.tailIdx = (this.tailIdx + 1 + this.listArray.length) % this.listArray.length;
 		this.listArray[this.tailIdx] = obj;
 		this.objectCount++;
@@ -90,13 +82,13 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * list is not empty, null if the list is empty.
 	 */
 	@Override
-	public T removeFirst() {
+	public E removeFirst() {
 		if (this.isEmpty())
 			return null;
-		T itemToReturn = this.listArray[this.headIdx];
+		E itemToReturn = this.listArray[this.headIdx];
 		this.listArray[this.headIdx] = null;
-		this.headIdx = this.size() > 1 ? (this.headIdx + 1 + this.listArray.length) % this.listArray.length
-				: this.headIdx;
+		if (this.size() > 1)
+			this.headIdx = (this.headIdx + 1 + this.listArray.length) % this.listArray.length;
 		this.objectCount--;
 		return itemToReturn;
 	}
@@ -106,13 +98,13 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * list is not empty, null if the list is empty.
 	 */
 	@Override
-	public T removeLast() {
+	public E removeLast() {
 		if (this.isEmpty())
 			return null;
-		T itemToReturn = this.listArray[this.tailIdx];
+		E itemToReturn = this.listArray[this.tailIdx];
 		this.listArray[this.tailIdx] = null;
-		this.tailIdx = this.size() > 1 ? (this.tailIdx - 1 + this.listArray.length) % this.listArray.length
-				: this.tailIdx;
+		if (this.size() > 1)
+			this.tailIdx = (this.tailIdx - 1 + this.listArray.length) % this.listArray.length;
 		this.objectCount--;
 		return itemToReturn;
 	}
@@ -126,22 +118,23 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * element was located.
 	 */
 	@Override
-	public T remove(T obj) {
+	public E remove(E obj) {
 		boolean isFound = false;
-		T itemToReturn = null;
 		int idx = 0;
 		int curr, next;
+		E itemToReturn = null;
 
 		while (!isFound && idx < this.size()) {
 			curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
 
-			if (this.listArray[curr] == obj) {
+			if (this.listArray[curr].compareTo(obj) == 0) {
 				itemToReturn = this.listArray[curr];
 				isFound = true;
 				break;
 			}
 			idx++;
 		}
+
 		if (isFound) {
 			if (this.size() - idx < idx + 1) {
 				while (idx < this.size() - 1) {
@@ -170,10 +163,10 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * not modified.
 	 */
 	@Override
-	public T peekFirst() {
-		if (!this.isEmpty())
-			return this.listArray[this.headIdx];
-		return null;
+	public E peekFirst() {
+		if (this.isEmpty())
+			return null;
+		return this.listArray[this.headIdx];
 	}
 
 	/*
@@ -181,10 +174,10 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * not modified.
 	 */
 	@Override
-	public T peekLast() {
-		if (!this.isEmpty())
-			return this.listArray[this.tailIdx];
-		return null;
+	public E peekLast() {
+		if (this.isEmpty())
+			return null;
+		return this.listArray[this.tailIdx];
 	}
 
 	/*
@@ -192,9 +185,9 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * list is not modified.
 	 */
 	@Override
-	public boolean contains(T obj) {
-		for (T item : this.listArray) {
-			if (item.equals(obj))
+	public boolean contains(E obj) {
+		for (E item : this.listArray) {
+			if (item.compareTo(obj) == 0)
 				return true;
 		}
 		return false;
@@ -206,9 +199,9 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * list is not modified.
 	 */
 	@Override
-	public T find(T obj) {
-		for (T item : this.listArray) {
-			if (item.equals(obj))
+	public E find(E obj) {
+		for (E item : this.listArray) {
+			if (item.compareTo(obj) == 0)
 				return item;
 		}
 		return null;
@@ -220,7 +213,7 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	@SuppressWarnings("unchecked")
 	@Override
 	public void clear() {
-		this.listArray = (T[]) new Comparable[this.listArray.length];
+		this.listArray = (E[]) new Comparable[this.listArray.length];
 		this.objectCount = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
@@ -255,9 +248,9 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	 * the underlying order of the list. (front first, rear last)
 	 */
 	@Override
-	public Iterator<T> iterator() {
+	public Iterator<E> iterator() {
 		this.iteratorIdx = 0;
-		return (Iterator<T>) this;
+		return (Iterator<E>) this;
 	}
 
 	@Override
@@ -266,12 +259,11 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	}
 
 	@Override
-	public T next() {
+	public E next() {
 		if (!hasNext())
 			throw new NoSuchElementException();
-		T itemToReturn = this.listArray[(this.headIdx + this.iteratorIdx + this.listArray.length)
+		E itemToReturn = this.listArray[(this.headIdx + this.iteratorIdx++ + this.listArray.length)
 				% this.listArray.length];
-		this.iteratorIdx++;
 		return itemToReturn;
 	}
 
