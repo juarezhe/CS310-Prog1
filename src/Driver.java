@@ -8,7 +8,7 @@ public class Driver {
 	public static void main(String[] args) {
 		System.out.println("Requested new list of size " + SIZE);
 		list = new ArrayLinearList<Integer>(SIZE);
-		System.out.println("Sucessfully created a new list");
+		System.out.println("Successfully created a new list");
 		verboseTest(list);
 		runTests(list);
 	}
