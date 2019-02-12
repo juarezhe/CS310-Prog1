@@ -40,7 +40,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	}
 
 	/*
-	 * Outputs Front: indexFront Rear: indexRear
+	 * Outputs "Front: indexFront Rear: indexRear"
 	 */
 	@Override
 	public void ends() {
