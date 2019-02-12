@@ -1,13 +1,13 @@
 import data_structures.*;
 
 public class Driver {
-	private static final int SIZE = 10;
+	private static final int LIST_SIZE = 10;
 	private static LinearListADT<Integer> list;
-	private static final int TEST_LOOP_COUNT = SIZE + 1;
+	private static final int TEST_LOOP_COUNT = LIST_SIZE + 1;
 
 	public static void main(String[] args) {
-		System.out.println("Requested new list of size " + SIZE);
-		list = new ArrayLinearList<Integer>(SIZE);
+		System.out.println("Requested new list of size " + LIST_SIZE);
+		list = new ArrayLinearList<Integer>(LIST_SIZE);
 		System.out.println("Successfully created a new list");
 		verboseTest(list);
 		runTests(list);
@@ -21,10 +21,7 @@ public class Driver {
 		list.ends();
 	}
 
-
 	/*
-	 * Recommended for smaller lists.
-	 * 
 	 * Add to front until full, alternate removal from back and addition to front
 	 * several times, remove from back until empty, add to front once (to test index
 	 * reset). Clear list and repeat in reverse.
@@ -32,65 +29,93 @@ public class Driver {
 	private static void verboseTest(LinearListADT<Integer> list) {
 		System.out.print("Initial state\t| ");
 		printInfo(list);
+
 		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
-			if (list.addLast(i))
-				System.out.print("addLast " + i + "\t| ");
-			else
-				System.out.print("addLast fail\t| ");
-			printInfo(list);
+			if (list.addFirst(i)) {
+				System.out.print("addFirst: " + i + "\t| ");
+				printInfo(list);
+			} else {
+				if (list.isFull())
+					System.out.println("addFirst failed: list full");
+				else
+					System.out.println("addFirst failed: uknown reason");
+			}
 		}
+
 		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
 			Integer item = list.removeLast();
-			if (item == null)
-				System.out.print("removeLast fail\t| ");
-			else
-				System.out.print("removeLast " + item + "\t| ");
-			printInfo(list);
+			if (item == null) {
+				if (list.isEmpty())
+					System.out.println("removeLast failed: list empty");
+				else
+					System.out.println("removeLast failed: unknown reason");
+			} else {
+				System.out.print("removeLast: " + item + "\t| ");
+				printInfo(list);
+			}
 		}
+
 		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
-			if (list.addLast(i))
-				System.out.print("addLast " + i + "\t| ");
-			else
-				System.out.print("addLast fail\t| ");
-			printInfo(list);
+			if (list.addLast(i)) {
+				System.out.print("addLast: " + i + "\t| ");
+				printInfo(list);
+			} else {
+				if (list.isFull())
+					System.out.println("addLast failed: list full");
+				else
+					System.out.println("addLast failed: uknown reason");
+			}
 		}
-		for (int i = 1; i <= TEST_LOOP_COUNT / 2; i++) {
-			System.out.print("remove " + list.remove(i) + "\t| ");
+
+		for (int i = 1; i <= LIST_SIZE / 2; i++) {
+			System.out.print("remove: " + list.remove(i) + "\t| ");
 			printInfo(list);
-			list.addLast(i);
-			System.out.print("addLast " + i + "\t| ");
-			printInfo(list);
+
+			if (list.addLast(i)) {
+				System.out.print("addLast: " + i + "\t| ");
+				printInfo(list);
+			} else
+				System.out.println("addLast failed");
 		}
+
+		System.out.println("\nShould print n/2+1 through n, 1 through n/2:");
 		for (Integer i : list)
-			System.out.println(i);
+			System.out.print(i + ", ");
+		System.out.println("\n");
 
 		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
 			Integer item = list.removeFirst();
-			if (item == null)
-				System.out.print("removeFirst fail| ");
-			else
+			if (item == null) {
+				if (list.isEmpty())
+					System.out.println("removeFirst failed: list empty");
+				else
+					System.out.println("removeFirst failed: unknown reason");
+			} else {
 				System.out.print("removeFirst " + item + "\t| ");
-			printInfo(list);
+				printInfo(list);
+			}
 		}
 
-		list.addLast(1);
-		System.out.print("Final state\t| ");
+		if (list.addFirst(1)) {
+			System.out.print("addFirst 1\t| ");
+			printInfo(list);
+		}
+		System.out.print("removeLast " + list.removeLast() + "\t| ");
 		printInfo(list);
 
-		for (Integer i : list)
-			System.out.println(i);
-
-		list.clear();
-		System.out.println("Clear");
+		System.out.println("Note: check front and rear indices\n");
 	}
 
 	private static void runTests(LinearListADT<Integer> list) {
-		for (int i = 1; i <= SIZE; i++)
+		for (int i = 1; i <= LIST_SIZE; i++)
 			list.addFirst(i);
-		System.out.println("Should now print SIZE .. 1");
+
+		System.out.println("Should print n through 1:");
 		for (Integer i : list)
-			System.out.println(i);
-		for (int i = 1; i <= SIZE; i++)
+			System.out.print(i + ", ");
+		System.out.println();
+
+		for (int i = 1; i <= LIST_SIZE; i++)
 			if (list.removeFirst() == null)
 				throw new RuntimeException("ERROR with removeFirst");
 		for (Integer i : list)
@@ -101,17 +126,17 @@ public class Driver {
 		if (list.size() != 0)
 			throw new RuntimeException("ERROR in size");
 
-		for (int i = 1; i <= 100 * SIZE; i++) {
-			for (int j = 1; j <= SIZE; j++)
+		for (int i = 1; i <= 100 * LIST_SIZE; i++) {
+			for (int j = 1; j <= LIST_SIZE; j++)
 				list.addFirst(j);
-			for (int j = 1; j <= SIZE; j++)
+			for (int j = 1; j <= LIST_SIZE; j++)
 				list.removeLast();
 		}
 
-		for (int i = 1; i <= 100 * SIZE; i++) {
-			for (int j = 1; j <= SIZE; j++)
+		for (int i = 1; i <= 100 * LIST_SIZE; i++) {
+			for (int j = 1; j <= LIST_SIZE; j++)
 				list.addLast(j);
-			for (int j = 1; j <= SIZE; j++)
+			for (int j = 1; j <= LIST_SIZE; j++)
 				list.removeFirst();
 		}
 
@@ -119,43 +144,49 @@ public class Driver {
 		if (list.peekLast() != -1)
 			throw new RuntimeException("ERROR in peekLast");
 		list.clear();
+
 		list.addLast(-1);
 		if (list.peekFirst() != -1)
 			throw new RuntimeException("ERROR in peekLast");
-
 		list.clear();
-		for (int i = 1; i <= SIZE; i++)
+
+		for (int i = 1; i <= LIST_SIZE; i++)
 			list.addFirst(i);
 
-		for (int i = 1; i <= SIZE; i++)
+		for (int i = 1; i <= LIST_SIZE; i++)
 			if (list.find(i) != i)
 				throw new RuntimeException("ERROR in find");
 			else
 				System.out.println("FOUND " + i);
 
-		for (int i = 1; i <= SIZE; i++)
+		for (int i = 1; i <= LIST_SIZE; i++)
 			if (!list.contains(i))
 				throw new RuntimeException("ERROR in find");
 
 		list.clear();
-		for (int i = 1; i <= SIZE; i++)
+		for (int i = 1; i <= LIST_SIZE; i++)
 			list.addFirst(i);
-		//
+
 		Integer tmp = list.remove(4);
 		if (tmp == null)
 			System.out.println("ERROR in remove");
 		else
 			System.out.println("removed " + tmp);
+
+		System.out.println("Should print n through 1 except 4:");
 		for (Integer i : list)
 			System.out.println(i);
-		//
-		for (int i = 1; i <= SIZE / 2; i++) {
+
+		System.out.println("Should print error in removing 4:");
+		for (int i = 1; i <= LIST_SIZE / 2; i++) {
 			tmp = list.remove(i);
 			if (tmp == null)
 				System.out.println("ERROR in remove");
 			else
 				System.out.println("removed " + tmp);
 		}
+
+		System.out.println("Should print n through n/2+1:");
 		for (Integer i : list)
 			System.out.println(i);
 	}
