@@ -2,7 +2,7 @@ package data_structures;
 
 import java.util.Iterator;
 
-public interface LinearListADT<T> extends Iterable<T> {
+public interface LinearListADT<E> extends Iterable<E> {
 
 	public static final int DEFAULT_MAX_CAPACITY = 100;
 
@@ -15,25 +15,25 @@ public interface LinearListADT<T> extends Iterable<T> {
 	 * Adds the Object obj to the beginning of list and returns true if the list is
 	 * not full. returns false and aborts the insertion if the list is full.
 	 */
-	public boolean addFirst(T obj);
+	public boolean addFirst(E obj);
 
 	/*
 	 * Adds the Object obj to the end of list and returns true if the list is not
 	 * full. returns false and aborts the insertion if the list is full.
 	 */
-	public boolean addLast(T obj);
+	public boolean addLast(E obj);
 
 	/*
 	 * Removes and returns the parameter object obj in first position in list if the
 	 * list is not empty, null if the list is empty.
 	 */
-	public T removeFirst();
+	public E removeFirst();
 
 	/*
 	 * Removes and returns the parameter object obj in last position in list if the
 	 * list is not empty, null if the list is empty.
 	 */
-	public T removeLast();
+	public E removeLast();
 
 	/*
 	 * Removes and returns the parameter object obj from the list if the list
@@ -43,32 +43,32 @@ public interface LinearListADT<T> extends Iterable<T> {
 	 * that you may have to shift elements to fill in the slot where the deleted
 	 * element was located.
 	 */
-	public T remove(T obj);
+	public E remove(E obj);
 
 	/*
 	 * Returns the first element in the list, null if the list is empty. The list is
 	 * not modified.
 	 */
-	public T peekFirst();
+	public E peekFirst();
 
 	/*
 	 * Returns the last element in the list, null if the list is empty. The list is
 	 * not modified.
 	 */
-	public T peekLast();
+	public E peekLast();
 
 	/*
 	 * Returns true if the parameter object obj is in the list, false otherwise. The
 	 * list is not modified.
 	 */
-	public boolean contains(T obj);
+	public boolean contains(E obj);
 
 	/*
 	 * Returns the element matching obj if it is in the list, null otherwise. In the
 	 * case of duplicates, this method returns the element closest to front. The
 	 * list is not modified.
 	 */
-	public T find(T obj);
+	public E find(E obj);
 
 	/*
 	 * The list is returned to an empty state.
@@ -94,5 +94,5 @@ public interface LinearListADT<T> extends Iterable<T> {
 	 * Returns an Iterator of the values in the list, presented in the same order as
 	 * the underlying order of the list. (front first, rear last)
 	 */
-	public Iterator<T> iterator();
+	public Iterator<E> iterator();
 }
