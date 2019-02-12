@@ -11,7 +11,6 @@ public class Driver {
 		System.out.println("Sucessfully created a new list");
 		verboseTest(list);
 		runTests(list);
-		// TODO Add tests for peekFirst and peekLast
 	}
 
 	/*
