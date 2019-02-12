@@ -7,7 +7,7 @@ public interface LinearListADT<T> extends Iterable<T> {
 	public static final int DEFAULT_MAX_CAPACITY = 100;
 
 	/*
-	 * Outputs “Front: indexFront Rear: indexRear”
+	 * Outputs Front: indexFront Rear: indexRear
 	 */
 	public void ends();
 

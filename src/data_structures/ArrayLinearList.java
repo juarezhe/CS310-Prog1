@@ -24,14 +24,14 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	/*
 	 * Custom constructor
 	 * 
-	 * Converts negative values to positive and forces within 1 to 100 range
+	 * Enforces minimum size of 1 and maximum of 100
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int maxCapacity) {
 		int size;
 		if (maxCapacity < 1)
-			maxCapacity = maxCapacity * -1;
-		if (maxCapacity > DEFAULT_MAX_CAPACITY)
+			size = 1;
+		else if (maxCapacity > DEFAULT_MAX_CAPACITY)
 			size = DEFAULT_MAX_CAPACITY;
 		else
 			size = maxCapacity;
@@ -42,7 +42,7 @@ public class ArrayLinearList<T extends Comparable<T>> implements LinearListADT<T
 	}
 
 	/*
-	 * Outputs “Front: indexFront Rear: indexRear”
+	 * Outputs Front: indexFront Rear: indexRear
 	 */
 	@Override
 	public void ends() {
