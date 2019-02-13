@@ -68,7 +68,7 @@ public class Driver {
 		}
 
 		for (int i = 1; i <= LIST_SIZE / 2; i++) {
-			System.out.print("remove: " + list.remove(i) + "\t| ");
+			System.out.print("removed: " + list.remove(i) + "\t| ");
 			printInfo(list);
 
 			if (list.addLast(i)) {
