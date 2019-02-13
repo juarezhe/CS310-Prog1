@@ -1,18 +1,26 @@
 package data_structures;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Program #1 Array list for data storage of max size 100 CS310 16 February 2019
+ * Program #1 Data structure for an unsorted list of max size 100
+ * 
+ * CS310
+ * 
+ * 16 February 2019
  * 
  * @author Hannah Juarez cssc1481
  */
 
 public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E>, Iterator<E> {
+	// how to resolve 
 
-	private E listArray[];
-	private int objectCount, headIdx, tailIdx, iteratorIdx;
+	protected E[] storage;
+	protected int currentSize;
+	protected int headIdx, tailIdx;
+	protected long modificationCounter;
 
 	/*
 	 * Default constructor
@@ -29,14 +37,15 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 * Enforces maximum size of 100, allows compiler to handle negative sizes
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayLinearList(int maxCapacity) {
-		if (maxCapacity > DEFAULT_MAX_CAPACITY)
-			listArray = (E[]) new Comparable[DEFAULT_MAX_CAPACITY];
+	public ArrayLinearList(int requestedSize) {
+		if (requestedSize > LinearListADT.DEFAULT_MAX_CAPACITY)
+			storage = (E[]) new Comparable[LinearListADT.DEFAULT_MAX_CAPACITY];
 		else
-			listArray = (E[]) new Comparable[maxCapacity];
-		this.objectCount = 0;
+			storage = (E[]) new Comparable[requestedSize];
+		this.currentSize = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
+		this.modificationCounter = 0;
 	}
 
 	/*
@@ -56,9 +65,10 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		if (this.isFull())
 			return false;
 		if (!this.isEmpty())
-			this.headIdx = (this.headIdx - 1 + this.listArray.length) % this.listArray.length;
-		this.listArray[this.headIdx] = obj;
-		this.objectCount++;
+			this.headIdx = (--this.headIdx + this.storage.length) % this.storage.length;
+		this.storage[this.headIdx] = obj;
+		this.currentSize++;
+		this.modificationCounter++;
 		return true;
 	}
 
@@ -71,9 +81,10 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		if (this.isFull())
 			return false;
 		if (!this.isEmpty())
-			this.tailIdx = (this.tailIdx + 1 + this.listArray.length) % this.listArray.length;
-		this.listArray[this.tailIdx] = obj;
-		this.objectCount++;
+			this.tailIdx = (++this.tailIdx + this.storage.length) % this.storage.length;
+		this.storage[this.tailIdx] = obj;
+		this.currentSize++;
+		this.modificationCounter++;
 		return true;
 	}
 
@@ -85,11 +96,14 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	public E removeFirst() {
 		if (this.isEmpty())
 			return null;
-		E itemToReturn = this.listArray[this.headIdx];
-		this.listArray[this.headIdx] = null;
+		
+		E itemToReturn = this.storage[this.headIdx];
+		this.storage[this.headIdx] = null;
+		
 		if (this.size() > 1)
-			this.headIdx = (this.headIdx + 1 + this.listArray.length) % this.listArray.length;
-		this.objectCount--;
+			this.headIdx = (++this.headIdx + this.storage.length) % this.storage.length;
+		this.currentSize--;
+		this.modificationCounter++;
 		return itemToReturn;
 	}
 
@@ -101,11 +115,14 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	public E removeLast() {
 		if (this.isEmpty())
 			return null;
-		E itemToReturn = this.listArray[this.tailIdx];
-		this.listArray[this.tailIdx] = null;
+		
+		E itemToReturn = this.storage[this.tailIdx];
+		this.storage[this.tailIdx] = null;
+		
 		if (this.size() > 1)
-			this.tailIdx = (this.tailIdx - 1 + this.listArray.length) % this.listArray.length;
-		this.objectCount--;
+			this.tailIdx = (--this.tailIdx + this.storage.length) % this.storage.length;
+		this.currentSize--;
+		this.modificationCounter++;
 		return itemToReturn;
 	}
 
@@ -125,10 +142,10 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		E itemToReturn = null;
 
 		while (!isFound && idx < this.size()) {
-			curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
+			curr = (this.headIdx + idx + this.storage.length) % this.storage.length;
 
-			if (this.listArray[curr].compareTo(obj) == 0) {
-				itemToReturn = this.listArray[curr];
+			if (this.storage[curr].compareTo(obj) == 0) {
+				itemToReturn = this.storage[curr];
 				isFound = true;
 				break;
 			}
@@ -138,22 +155,21 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		if (isFound) {
 			if (this.size() - idx < idx + 1) {
 				while (idx < this.size() - 1) {
-					curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
-					next = (this.headIdx + idx + this.listArray.length + 1) % this.listArray.length;
-					this.listArray[curr] = this.listArray[next];
-					idx++;
+					curr = (this.headIdx + idx + this.storage.length) % this.storage.length;
+					next = (this.headIdx + ++idx + this.storage.length) % this.storage.length;
+					this.storage[curr] = this.storage[next];
 				}
-				this.tailIdx = (this.tailIdx + this.listArray.length - 1) % this.listArray.length;
+				this.tailIdx = (--this.tailIdx + this.storage.length) % this.storage.length;
 			} else {
 				while (idx > 0) {
-					curr = (this.headIdx + idx + this.listArray.length) % this.listArray.length;
-					next = (this.headIdx + idx + this.listArray.length - 1) % this.listArray.length;
-					this.listArray[curr] = this.listArray[next];
-					idx--;
+					curr = (this.headIdx + idx + this.storage.length) % this.storage.length;
+					next = (this.headIdx + --idx + this.storage.length) % this.storage.length;
+					this.storage[curr] = this.storage[next];
 				}
-				this.headIdx = (this.headIdx + this.listArray.length + 1) % this.listArray.length;
+				this.headIdx = (++this.headIdx + this.storage.length) % this.storage.length;
 			}
-			this.objectCount--;
+			this.currentSize--;
+			this.modificationCounter++;
 		}
 		return itemToReturn;
 	}
@@ -166,7 +182,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	public E peekFirst() {
 		if (this.isEmpty())
 			return null;
-		return this.listArray[this.headIdx];
+		return this.storage[this.headIdx];
 	}
 
 	/*
@@ -177,7 +193,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	public E peekLast() {
 		if (this.isEmpty())
 			return null;
-		return this.listArray[this.tailIdx];
+		return this.storage[this.tailIdx];
 	}
 
 	/*
@@ -186,7 +202,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public boolean contains(E obj) {
-		for (E item : this.listArray) {
+		for (E item : this.storage) {
 			if (item.compareTo(obj) == 0)
 				return true;
 		}
@@ -200,7 +216,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public E find(E obj) {
-		for (E item : this.listArray) {
+		for (E item : this.storage) {
 			if (item.compareTo(obj) == 0)
 				return item;
 		}
@@ -213,10 +229,11 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	@SuppressWarnings("unchecked")
 	@Override
 	public void clear() {
-		this.listArray = (E[]) new Comparable[this.listArray.length];
-		this.objectCount = 0;
+		this.storage = (E[]) new Comparable[this.storage.length];
+		this.currentSize = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
+		this.modificationCounter = 0; // should this be ++?
 	}
 
 	/*
@@ -224,7 +241,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public boolean isEmpty() {
-		return this.objectCount == 0;
+		return this.currentSize == 0;
 	}
 
 	/*
@@ -232,7 +249,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public boolean isFull() {
-		return this.objectCount == listArray.length;
+		return this.currentSize == storage.length;
 	}
 
 	/*
@@ -240,7 +257,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public int size() {
-		return this.objectCount;
+		return this.currentSize;
 	}
 
 	/*
@@ -249,22 +266,31 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public Iterator<E> iterator() {
-		this.iteratorIdx = 0;
-		return (Iterator<E>) this;
+		return new IteratorHelper();
 	}
 
-	@Override
-	public boolean hasNext() {
-		return this.iteratorIdx < this.objectCount;
-	}
+	class IteratorHelper implements Iterator<E> {
+		int iterIndex;
+		long stateCheck;
 
-	@Override
-	public E next() {
-		if (!hasNext())
-			throw new NoSuchElementException();
-		E itemToReturn = this.listArray[(this.headIdx + this.iteratorIdx++ + this.listArray.length)
-				% this.listArray.length];
-		return itemToReturn;
-	}
+		public IteratorHelper() {
+			this.iterIndex = 0;
+			this.stateCheck = modificationCounter;
+		}
 
+		@Override
+		public boolean hasNext() {
+			if (this.stateCheck != modificationCounter)
+				throw new ConcurrentModificationException();
+			return this.iterIndex < currentSize;
+		}
+
+		@Override
+		public E next() {
+			if (!hasNext())
+				throw new NoSuchElementException();
+			E itemToReturn = storage[(headIdx + this.iterIndex++ + storage.length) % storage.length];
+			return itemToReturn;
+		}
+	}
 }
