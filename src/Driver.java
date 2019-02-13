@@ -39,7 +39,7 @@ public class Driver {
 				if (list.isFull())
 					System.out.println("addFirst failed: list full");
 				else
-					System.out.println("addFirst failed: uknown reason");
+					System.out.println("addFirst failed: unknown reason");
 			}
 		}
 
@@ -64,7 +64,7 @@ public class Driver {
 				if (list.isFull())
 					System.out.println("addLast failed: list full");
 				else
-					System.out.println("addLast failed: uknown reason");
+					System.out.println("addLast failed: unknown reason");
 			}
 		}
 
@@ -210,7 +210,7 @@ public class Driver {
 				if (list.isFull())
 					System.out.println("addFirst failed: list full");
 				else
-					System.out.println("addFirst failed: uknown reason");
+					System.out.println("addFirst failed: unknown reason");
 			}
 		}
 		
