@@ -233,7 +233,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		this.currentSize = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;
-		this.modificationCounter = 0; // should this be ++?
+		this.modificationCounter++;
 	}
 
 	/*

@@ -11,6 +11,7 @@ public class Driver {
 		System.out.println("Successfully created a new list");
 		verboseTest(list);
 		runTests(list);
+		iterTest(list);
 	}
 
 	/*
@@ -78,10 +79,10 @@ public class Driver {
 				System.out.println("addLast failed");
 		}
 
-		System.out.println("\nShould print n/2+1 through n, 1 through n/2:");
-		for (Integer i : list)
-			System.out.print(i + ", ");
-		System.out.println("\n");
+		System.out.println("Should print n/2+1 through n, 1 through n/2:");
+		for (Object obj : list)
+			System.out.print(obj + ", ");
+		System.out.println();
 
 		for (int i = 1; i <= TEST_LOOP_COUNT; i++) {
 			Integer item = list.removeFirst();
@@ -103,14 +104,17 @@ public class Driver {
 		System.out.print("removeLast " + list.removeLast() + "\t| ");
 		printInfo(list);
 
-		System.out.println("Note: check front and rear indices\n");
+		System.out.println("Note: check front and rear indices");
 	}
 
+	/*
+	 * Instructor-provided tests
+	 */
 	private static void runTests(LinearListADT<Integer> list) {
 		for (int i = 1; i <= LIST_SIZE; i++)
 			list.addFirst(i);
 
-		System.out.println("Should print n through 1:");
+		System.out.println("\nShould print n through 1:");
 		for (Integer i : list)
 			System.out.print(i + ", ");
 		System.out.println();
@@ -189,5 +193,32 @@ public class Driver {
 		System.out.println("Should print n through n/2+1:");
 		for (Integer i : list)
 			System.out.println(i);
+	}
+
+	/*
+	 * Test iterator index and ConcurrentModificationException
+	 */
+	private static void iterTest(LinearListADT<Integer> list) {
+		list.clear();
+		System.out.println();
+		
+		for (int i = 1; i <= LIST_SIZE; i++) {
+			if (list.addFirst(i)) {
+				System.out.print("addFirst: " + i + "\t| ");
+				printInfo(list);
+			} else {
+				if (list.isFull())
+					System.out.println("addFirst failed: list full");
+				else
+					System.out.println("addFirst failed: uknown reason");
+			}
+		}
+		
+		System.out.println("Should fail with ConcurrentModificationException after evaluating 3:");
+		for (Integer obj : list) {
+			if (obj.compareTo(3) == 0)
+				list.remove(3);
+			System.out.println("Evaluated " + obj);
+		}
 	}
 }
