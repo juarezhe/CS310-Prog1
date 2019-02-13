@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  * @author Hannah Juarez cssc1481
  */
 
-public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E>, Iterator<E> {
+public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E>, Iterable<E> {
 	// how to resolve 
 
 	protected E[] storage;
