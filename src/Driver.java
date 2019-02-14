@@ -67,6 +67,11 @@ public class Driver {
 					System.out.println("addLast failed: unknown reason");
 			}
 		}
+		
+		System.out.println("Should print 1 through n:");
+		for (Object obj : list)
+			System.out.print(obj + ", ");
+		System.out.println();
 
 		for (int i = 1; i <= LIST_SIZE / 2; i++) {
 			System.out.print("removed: " + list.remove(i) + "\t| ");
