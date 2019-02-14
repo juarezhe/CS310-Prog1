@@ -109,7 +109,7 @@ public class Driver {
 		System.out.print("removeLast " + list.removeLast() + "\t| ");
 		printInfo(list);
 
-		System.out.println("Note: check front and rear indices");
+		System.out.println("Note: check for inconsistency in indices");
 	}
 
 	/*
