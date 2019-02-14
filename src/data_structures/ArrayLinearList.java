@@ -7,20 +7,18 @@ import java.util.NoSuchElementException;
 /**
  * Program #1 Data structure for an unsorted list of max size 100
  * 
- * CS310
+ * CS-310
  * 
  * 16 February 2019
  * 
  * @author Hannah Juarez cssc1481
  */
 
-public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E>, Iterable<E> {
-	// how to resolve 
-
-	protected E[] storage;
-	protected int currentSize;
-	protected int headIdx, tailIdx;
-	protected long modificationCounter;
+public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E> {
+	private static final int DEFAULT_MAX_CAPACITY = 100;
+	private E[] storage;
+	private int currentSize, headIdx, tailIdx;
+	private long modificationCounter;
 
 	/*
 	 * Default constructor
@@ -28,7 +26,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 * Calls custom constructor using LinearListADT.DEFAULT_MAX_CAPACITY
 	 */
 	public ArrayLinearList() {
-		this(LinearListADT.DEFAULT_MAX_CAPACITY);
+		this(DEFAULT_MAX_CAPACITY);
 	}
 
 	/*
@@ -38,8 +36,8 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int requestedSize) {
-		if (requestedSize > LinearListADT.DEFAULT_MAX_CAPACITY)
-			storage = (E[]) new Comparable[LinearListADT.DEFAULT_MAX_CAPACITY];
+		if (requestedSize > DEFAULT_MAX_CAPACITY)
+			storage = (E[]) new Comparable[DEFAULT_MAX_CAPACITY];
 		else
 			storage = (E[]) new Comparable[requestedSize];
 		this.currentSize = 0;
@@ -96,11 +94,9 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	public E removeFirst() {
 		if (this.isEmpty())
 			return null;
-		
 		E itemToReturn = this.storage[this.headIdx];
 		this.storage[this.headIdx] = null;
-		
-		if (this.size() > 1)
+		if (this.currentSize > 1)
 			this.headIdx = (++this.headIdx + this.storage.length) % this.storage.length;
 		this.currentSize--;
 		this.modificationCounter++;
@@ -115,11 +111,9 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	public E removeLast() {
 		if (this.isEmpty())
 			return null;
-		
 		E itemToReturn = this.storage[this.tailIdx];
 		this.storage[this.tailIdx] = null;
-		
-		if (this.size() > 1)
+		if (this.currentSize > 1)
 			this.tailIdx = (--this.tailIdx + this.storage.length) % this.storage.length;
 		this.currentSize--;
 		this.modificationCounter++;
@@ -137,33 +131,34 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	@Override
 	public E remove(E obj) {
 		boolean isFound = false;
-		int idx = 0;
+		int index = 0;
 		int curr, next;
 		E itemToReturn = null;
-
-		while (!isFound && idx < this.size()) {
-			curr = (this.headIdx + idx + this.storage.length) % this.storage.length;
+		
+		
+		while (!isFound && index < this.currentSize) {
+			curr = (this.headIdx + index + this.storage.length) % this.storage.length;
 
 			if (this.storage[curr].compareTo(obj) == 0) {
 				itemToReturn = this.storage[curr];
 				isFound = true;
 				break;
 			}
-			idx++;
+			index++;
 		}
 
 		if (isFound) {
-			if (this.size() - idx < idx + 1) {
-				while (idx < this.size() - 1) {
-					curr = (this.headIdx + idx + this.storage.length) % this.storage.length;
-					next = (this.headIdx + ++idx + this.storage.length) % this.storage.length;
+			if (this.currentSize - index < index + 1) {
+				while (index < this.currentSize - 1) {
+					curr = (this.headIdx + index + this.storage.length) % this.storage.length;
+					next = (this.headIdx + ++index + this.storage.length) % this.storage.length;
 					this.storage[curr] = this.storage[next];
 				}
 				this.tailIdx = (--this.tailIdx + this.storage.length) % this.storage.length;
 			} else {
-				while (idx > 0) {
-					curr = (this.headIdx + idx + this.storage.length) % this.storage.length;
-					next = (this.headIdx + --idx + this.storage.length) % this.storage.length;
+				while (index > 0) {
+					curr = (this.headIdx + index + this.storage.length) % this.storage.length;
+					next = (this.headIdx + --index + this.storage.length) % this.storage.length;
 					this.storage[curr] = this.storage[next];
 				}
 				this.headIdx = (++this.headIdx + this.storage.length) % this.storage.length;
@@ -202,11 +197,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public boolean contains(E obj) {
-		for (E item : this.storage) {
-			if (item.compareTo(obj) == 0)
-				return true;
-		}
-		return false;
+		return this.find(obj) != null;
 	}
 
 	/*
@@ -269,9 +260,9 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		return new IteratorHelper();
 	}
 
-	class IteratorHelper implements Iterator<E> {
-		int iterIndex;
-		long stateCheck;
+	private class IteratorHelper implements Iterator<E> {
+		private int iterIndex;
+		private long stateCheck;
 
 		public IteratorHelper() {
 			this.iterIndex = 0;
@@ -289,8 +280,12 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		public E next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
-			E itemToReturn = storage[(headIdx + this.iterIndex++ + storage.length) % storage.length];
-			return itemToReturn;
+			return storage[(headIdx + this.iterIndex++ + storage.length) % storage.length];
+		}
+		
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
 		}
 	}
 }
