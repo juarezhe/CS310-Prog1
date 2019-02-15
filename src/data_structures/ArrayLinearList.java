@@ -23,7 +23,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	/*
 	 * Default constructor
 	 * 
-	 * Calls custom constructor using LinearListADT.DEFAULT_MAX_CAPACITY
+	 * Calls custom constructor using DEFAULT_MAX_CAPACITY
 	 */
 	public ArrayLinearList() {
 		this(DEFAULT_MAX_CAPACITY);
@@ -134,8 +134,7 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		int index = 0;
 		int curr, next;
 		E itemToReturn = null;
-		
-		
+
 		while (!isFound && index < this.currentSize) {
 			curr = (this.headIdx + index + this.storage.length) % this.storage.length;
 
@@ -260,6 +259,10 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 		return new IteratorHelper();
 	}
 
+	/*
+	 * IteratorHelper class allows for tracking of changes since Iterator creation.
+	 * Operates in fail-fast mode.
+	 */
 	private class IteratorHelper implements Iterator<E> {
 		private int iterIndex;
 		private long stateCheck;
@@ -269,6 +272,9 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 			this.stateCheck = modificationCounter;
 		}
 
+		/*
+		 * Returns true if the list has a next item, false if not
+		 */
 		@Override
 		public boolean hasNext() {
 			if (this.stateCheck != modificationCounter)
@@ -276,13 +282,16 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 			return this.iterIndex < currentSize;
 		}
 
+		/*
+		 * If the list has a next item, that item is returned
+		 */
 		@Override
 		public E next() {
 			if (!hasNext())
 				throw new NoSuchElementException();
 			return storage[(headIdx + this.iterIndex++ + storage.length) % storage.length];
 		}
-		
+
 		@Override
 		public void remove() {
 			throw new UnsupportedOperationException();
