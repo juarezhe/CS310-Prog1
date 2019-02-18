@@ -9,13 +9,12 @@ import java.util.NoSuchElementException;
  * 
  * CS-310
  * 
- * 16 February 2019
+ * 18 February 2019
  * 
  * @author Hannah Juarez cssc1481
  */
 
 public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E> {
-	private static final int DEFAULT_MAX_CAPACITY = 100;
 	private E[] storage;
 	private int currentSize, headIdx, tailIdx;
 	private long modificationCounter;
@@ -23,23 +22,20 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	/*
 	 * Default constructor
 	 * 
-	 * Calls custom constructor using DEFAULT_MAX_CAPACITY
+	 * Calls custom constructor with default of 100.
 	 */
 	public ArrayLinearList() {
-		this(DEFAULT_MAX_CAPACITY);
+		this(100);
 	}
 
 	/*
 	 * Custom constructor
 	 * 
-	 * Enforces maximum size of 100, allows compiler to handle negative sizes
+	 * Creates new array of Comparables and casts to E. Initializes indices and counters.
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayLinearList(int requestedSize) {
-		if (requestedSize > DEFAULT_MAX_CAPACITY)
-			storage = (E[]) new Comparable[DEFAULT_MAX_CAPACITY];
-		else
-			storage = (E[]) new Comparable[requestedSize];
+		storage = (E[]) new Comparable[requestedSize];
 		this.currentSize = 0;
 		this.headIdx = 0;
 		this.tailIdx = 0;

@@ -1,7 +1,7 @@
 import data_structures.*;
 
 public class Driver {
-	private static final int LIST_SIZE = 10;
+	private static final int LIST_SIZE = 1000000;
 	private static LinearListADT<Integer> list;
 	private static final int TEST_LOOP_COUNT = LIST_SIZE + 1;
 
