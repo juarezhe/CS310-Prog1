@@ -202,6 +202,8 @@ public class ArrayLinearList<E extends Comparable<E>> implements LinearListADT<E
 	 */
 	@Override
 	public E find(E obj) {
+		if(this.isEmpty())
+			return null;
 		for (E item : this.storage) {
 			if (item.compareTo(obj) == 0)
 				return item;
